@@ -1,0 +1,48 @@
+// RESOLVER PROMESAS 1: THEN Y CATCH - Pokéapi
+
+function getPokemonThen(name = 'ditto'){
+    return fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+        .then(response => {
+            if(!response.ok){
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(pokemon => {
+            console.log(`Nombre: ${pokemon.name}`);
+            console.log(`ID: ${pokemon.id}`);
+            console.log(`Peso: ${pokemon.weight}`);
+            console.log(`Altura: ${pokemon.height}`);
+            console.log(`Habilidades: ${pokemon.abilities.map(oneAbility => oneAbility.ability.name).join(', ')}`);
+            return pokemon;
+        })
+        .catch(error => {
+            console.log('Error al obtener el Pokémon:', error.message);
+            throw error;
+        })
+}
+
+getPokemonThen();
+
+// RESOLVER PROMESAS 2: ASYNC/AWAIT - Pokéapi
+
+async function getPokemonAsync(name = 'ditto'){
+    try{
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        if(!response.ok){
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        const pokemon = await response.json();
+        console.log(`Nombre: ${pokemon.name}`);
+        console.log(`ID: ${pokemon.id}`);
+        console.log(`Peso: ${pokemon.weight}`);
+        console.log(`Altura: ${pokemon.height}`);
+        console.log(`Habilidades: ${pokemon.abilities.map(oneAbility => oneAbility.ability.name).join(', ')}`);
+        return pokemon;
+    } catch(error){
+        console.log('Error al obtener el Pokémon:', error.message);
+        throw error;
+    }
+}
+
+getPokemonAsync('pikachu');
